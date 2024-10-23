@@ -3,8 +3,11 @@
 import * as Plot from '@observablehq/plot'
 import PlotFigure from '@/components/PlotFigure.js'
 import data25 from '@/assets/data25.json'
-import data29 from '@/assets/data29.json'
+// import data29 from '@/assets/data29.json'
 import { computed, ref, watch } from 'vue'
+
+const data29 = await fetch("data29.json").then((res) => res.json())
+
 
 // Liste des événements disponibles
 const events = ['NBJGREL', 'NBJORAG', 'NBJBROU']

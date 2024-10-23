@@ -5,9 +5,13 @@ import PlotFigure from '@/components/PlotFigure.js'
 import departement25Doubs from '@/assets/departement-25-doubsGeojson.json'
 import departement29Finistere from '@/assets/departement-29-finistereGeojson.json'
 import data25 from '@/assets/data25.json'
-import data29 from '@/assets/data29.json'
+// import data29 from '@/assets/data29.json'
 import { computed, ref, watch } from 'vue'
 import * as d3 from 'd3'
+
+
+const data29 = await fetch("data29.json").then((res) => res.json())
+
 
 // Mois de l'année
 const monthIndex = [
