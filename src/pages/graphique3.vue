@@ -209,6 +209,42 @@ watch([selectedYear2, selectedMonth], () => {
     <PlotFigure :key="plotKey" :options="plotOptions25" />
     <PlotFigure :key="plotKey" :options="plotOptions29" />
   </div>
+  <div class="container mx-auto p-4">
+    <h1 class="text-4xl font-bold text-center mt-20 mb-6">Graphique</h1>
+    <p class="mb-4">
+      Les deux cartes interactives pour les départements 25 (Doubs) et 29 (Finistère) permettent de visualiser les températures moyennes enregistrées selon une année et un mois sélectionnés, de 1950 jusqu'en 2022. Chaque point sur la carte représente une localisation spécifique avec sa température moyenne. Les données de température sont affichées pour chaque région géographique, offrant une vue d'ensemble de la répartition des températures dans ces deux départements.
+    </p>
+    <h1 class="text-4xl font-bold text-center mb-6">Analyse</h1>
+    <p class="mb-4">
+      <strong>Département 25 (Doubs) :</strong><br>
+      <strong>Valeurs observées :</strong> Les températures dans le Doubs varient généralement entre 15°C et 21°C en juin 2022, avec des zones plus chaudes vers l'ouest et le centre du département, tandis que les régions plus au sud montrent des températures plus fraîches.<br>
+      <strong>Variation régionale :</strong> Les écarts de température peuvent être attribués à l'altitude et à la proximité des zones montagneuses dans le Doubs, où les températures sont plus fraîches, notamment au sud.<br>
+      <strong>Évolution au fil des années :</strong> En analysant les tendances climatiques pour le Doubs, une augmentation des températures est probable, surtout durant les mois estivaux. Les températures moyennes au fil des années montrent une tendance à la hausse, avec des étés plus chauds et des hivers plus doux, conséquence directe du réchauffement climatique.
+    </p>
+    <p class="mb-4">
+      <strong>Département 29 (Finistère) :</strong><br>
+      <strong>Valeurs observées :</strong> Les températures dans le Finistère pour juin 2022 oscillent entre 15,4°C à 17.4°C, légèrement inférieures à celles du Doubs. La proximité de l'océan Atlantique joue un rôle majeur dans la régulation des températures, rendant les écarts saisonniers moins prononcés que dans les régions continentales.<br>
+      <strong>Variation régionale :</strong> Les zones côtières du Finistère, exposées aux vents maritimes, sont légèrement plus fraîches, tandis que les zones intérieures, plus éloignées de l'influence océanique, enregistrent des températures plus élevées.<br>
+      <strong>Évolution au fil des années :</strong> Comme dans le Doubs, le Finistère montre également une hausse des températures, bien que l'augmentation soit plus modérée en raison du climat océanique qui tempère les extrêmes. Toutefois, des étés plus chauds ont été enregistrés ces dernières années, un signe de la progression du réchauffement climatique même dans cette région.
+    </p>
+    <p class="mb-4">
+      <strong>Visualisation :</strong> Les deux cartes utilisent une palette de couleurs codée pour illustrer les variations de température. Les températures plus basses sont représentées en rouge clair, tandis que les températures plus élevées sont en rouge foncé. Les points sont annotés avec les températures exactes, facilitant une comparaison visuelle rapide entre les différentes localisations des deux départements.
+    </p>
+    <p class="mb-4">
+      <strong>Contexte Climatique et Comparaison :</strong><br>
+      <strong>Doubs :</strong> Subissant un climat plus continental, le Doubs montre une amplitude thermique plus marquée avec des étés plus chauds et des hivers plus froids. Le réchauffement climatique se traduit par une augmentation notable des températures estivales et une réduction des épisodes froids extrêmes.<br>
+      <strong>Finistère :</strong> Le Finistère, en revanche, est plus tempéré grâce à l'océan Atlantique, avec des étés doux et des hivers humides. Cependant, une tendance à l’augmentation des températures moyennes est également observable, affectant les écosystèmes côtiers et marins.
+    </p>
+    <p class="mb-4">
+      <strong>Conclusion :</strong> Les deux départements montrent des tendances différentes dues à leurs géographies et climats respectifs, mais les deux suivent une augmentation progressive des températures liée au réchauffement climatique. Le Doubs, avec son climat continental, subit des variations plus marquées, tandis que le Finistère bénéficie d'un climat océanique qui amortit ces changements. Ces données renforcent l'idée que, bien que les effets du changement climatique varient localement, son impact est global.
+    </p>
+    <p class="text-sm text-gray-500">Source</p>
+    <p class="text-sm text-blue-500 hover:underline transition duration-300">
+      <a href="https://defis.data.gouv.fr/datasets/6569b3d7d193b4daf2b43edc" target="_blank">
+        https://defis.data.gouv.fr/datasets/6569b3d7d193b4daf2b43edc
+      </a>
+    </p>
+  </div>
 </template>
 
 <style scoped>

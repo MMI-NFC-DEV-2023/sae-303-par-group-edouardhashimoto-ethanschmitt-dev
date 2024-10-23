@@ -6,15 +6,14 @@ import PlotFigure from '@/components/PlotFigure.js'
 //import data29 from '@/assets/data29.json'
 import { computed, ref, watch } from 'vue'
 
-const data29 = await fetch("data29.json").then((res) => res.json())
-const data25 = await fetch("data25.json").then((res) => res.json())
-
+const data29 = await fetch('data29.json').then((res) => res.json())
+const data25 = await fetch('data25.json').then((res) => res.json())
 
 // Liste des années disponibles, extraite des données
 const years = Array.from(new Set(data25.map((d) => d.AAAAMM.slice(0, 4))))
 
 // Année sélectionnée (par défaut "1964")
-const selectedYear = ref('1964') 
+const selectedYear = ref('1964')
 
 // Données du point survolé
 const hoveredData = ref(null)
@@ -104,7 +103,7 @@ watch(selectedYear, () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center min-h-screen">
+  <div class="flex flex-col items-center justify-center">
     <h1>Température maximale par mois</h1>
 
     <label for="year-select">Choisir l'année :</label>
@@ -119,11 +118,54 @@ watch(selectedYear, () => {
       {{ hoveredData }}
     </div>
   </div>
+  <div class="container mx-auto p-4">
+    <h1 class="text-4xl font-bold text-center mt-20 mb-6">Graphique</h1>
+    <p class="mb-4">
+      Le graphique présente une comparaison des températures maximales mensuelles entre deux
+      départements français, le Département 25 (représenté en rouge) et le Département 29
+      (représenté en bleu), pour une année donnée. Chaque point sur le graphique représente la
+      température maximale enregistrée pour un mois donné dans les deux départements, avec l'axe des
+      abscisses (X) indiquant les mois (de 1 à 12) et l'axe des ordonnées (Y) représentant les
+      températures maximales en degrés Celsius.
+    </p>
+    <h1 class="text-4xl font-bold text-center mb-6">Analyse</h1>
+    <p class="mb-4">
+      Les valeurs observées : Le Département 25 (en bleu) et le Département 29 (en orange) affichent
+      une tendance similaire, avec des températures maximales croissantes durant les mois d'été (mai
+      à août), puis décroissantes vers l'automne et l'hiver. En juin, juillet, et août, les
+      températures maximales atteignent des sommets pour les deux départements. Cependant, il existe
+      des variations légères, notamment pour certains mois comme avril et octobre, où le Département
+      25 enregistre des températures légèrement plus élevées que le Département 29, et inversement
+      pour d'autres mois. Répartition des températures : Les variations observées indiquent que les
+      deux départements, bien qu'éloignés géographiquement, connaissent des températures maximales
+      similaires durant l'année. Cela suggère des conditions climatiques relativement comparables,
+      mais avec des nuances potentielles dans des mois spécifiques. Les écarts peuvent être
+      attribués à des facteurs locaux tels que l'altitude, la proximité avec la mer (surtout pour le
+      Département 29), ou d'autres caractéristiques géographiques.
+    </p>
+    <p class="mb-4">
+      Dans le cadre du projet, qui vise à analyser les changements climatiques en France à
+      différentes échelles, cette visualisation peut illustrer des différences locales importantes
+      dans l'évolution des températures maximales entre 1964 et 2021. En comparant les tendances sur
+      cette période, il est possible de mettre en lumière des augmentations significatives des
+      températures dans certains départements, reflétant l'impact du réchauffement climatique. Ce
+      type d'analyse permet aux citoyens et aux décideurs de mieux comprendre comment certaines
+      régions sont plus affectées que d'autres par l'augmentation des températures, et souligne
+      l'importance de stratégies d'adaptation et d'atténuation à l'échelle locale. Ces informations
+      sont cruciales pour anticiper les effets potentiels du changement climatique sur les
+      écosystèmes, l'agriculture et les infrastructures.
+    </p>
+    <p class="text-sm text-gray-500">Source</p>
+    <p class="text-sm text-blue-500 hover:underline transition duration-300">
+      <a href="https://defis.data.gouv.fr/datasets/6569b3d7d193b4daf2b43edc" target="_blank">
+        https://defis.data.gouv.fr/datasets/6569b3d7d193b4daf2b43edc
+      </a>
+    </p>
+  </div>
 </template>
 
 <style scoped>
 .hover-info {
-  margin-top: 20px;
   font-size: 16px;
   font-weight: bold;
   color: #333;

@@ -62,4 +62,29 @@ watch(selectedEvent, () => {
   </select>
 
   <PlotFigure :key="plotKey" :options="plotOptions" />
+  <div class="container mx-auto p-4">
+    <h1 class="text-4xl font-bold text-center mt-20 mb-6">Graphique</h1>
+    <p class="mb-4">
+      Le graphique montre une comparaison du nombre total de jours liés à un événement météorologique spécifique comme le nombre de jours de brouillard, d'orage et de grêle entre deux départements français : le Département 25 et le Département 29.
+    </p>
+    <h1 class="text-4xl font-bold text-center mb-6">Analyse</h1>
+    <p class="mb-4">
+      Les valeurs observées : Le Département 25 (en bleu) a un total de 907 jours pour l'événement météorologique sélectionné. Le Département 29 (en orange) a un total beaucoup plus élevé, avec 6 211 jours.
+    </p>
+    <p class="mb-4">
+      Visualisation : La barre du Département 29 est considérablement plus haute que celle du Département 25, reflétant l'énorme écart entre les deux.
+    </p>
+    <p class="mb-4">
+      Répartition des événements : Ces données pourraient indiquer une fréquence beaucoup plus élevée de l'événement météorologique sélectionné dans le Département 29 par rapport au Département 25. Par exemple, si l'événement sélectionné est lié aux orages, il est clair que le Département 29 connaît plus de jours orageux que le Département 25.
+    </p>
+    <p class="mb-4">
+      Dans le cadre du projet, qui vise à analyser les changements climatiques en France à différentes échelles, cette visualisation peut illustrer des différences locales importantes dans la répartition des événements climatiques spécifiques (ici un phénomène météorologique). Ce type d'analyse permet aux citoyens et aux décideurs de mieux comprendre comment certains départements sont plus affectés que d'autres par des événements météorologiques particuliers, potentiellement liés au réchauffement climatique.
+    </p>
+    <p class="text-sm text-gray-500">Source</p>
+    <p class="text-sm text-blue-500 hover:underline transition duration-300">
+      <a href="https://defis.data.gouv.fr/datasets/6569b3d7d193b4daf2b43edc" target="_blank">
+        https://defis.data.gouv.fr/datasets/6569b3d7d193b4daf2b43edc
+      </a>
+    </p>
+  </div>
 </template>
