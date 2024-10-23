@@ -1,213 +1,214 @@
 <!-- eslint-disable vue/multi-word-component-names -->
+<script setup>
+import * as Plot from '@observablehq/plot'
+import PlotFigure from '@/components/PlotFigure.js'
+import departement25Doubs from '@/assets/departement-25-doubsGeojson.json'
+import departement29Finistere from '@/assets/departement-29-finistereGeojson.json'
+import data25 from '@/assets/data25.json'
+import data29 from '@/assets/data29.json'
+import { computed, ref, watch } from 'vue'
+import * as d3 from 'd3'
+
+// Mois de l'année
+const monthIndex = [
+  'Janvier',
+  'Février',
+  'Mars',
+  'Avril',
+  'Mai',
+  'Juin',
+  'Juillet',
+  'Août',
+  'Septembre',
+  'Octobre',
+  'Novembre',
+  'Décembre'
+]
+
+// Année et mois sélectionnés
+const selectedYear2 = ref(Math.min(...data25.map((d) => d.AAAAMM.slice(0, 4))))
+const selectedMonth = ref(monthIndex[0])
+
+// Calcul des températures moyennes par date
+const temperature25 = computed(() =>
+  data25.map((d) => {
+    const year = d.AAAAMM.slice(0, 4)
+    const month = d.AAAAMM.slice(4, 6) - 1
+    return {
+      date: new Date(year, month),
+      temperature: (+d.TX + +d.TN) / 2,
+      longitude: +d.LON,
+      latitude: +d.LAT
+    }
+  })
+)
+
+const temperature29 = computed(() =>
+  data29.map((d) => {
+    const year = d.AAAAMM.slice(0, 4)
+    const month = d.AAAAMM.slice(4, 6) - 1
+    return {
+      date: new Date(year, month),
+      temperature: (+d.TX + +d.TN) / 2,
+      longitude: +d.LON,
+      latitude: +d.LAT
+    }
+  })
+)
+
+// Échelle de couleur pour la température
+const colorScale = d3
+  .scaleSequential()
+  .domain(d3.extent(temperature25.value, (d) => d.temperature).reverse())
+  .interpolator(d3.interpolateRdYlBu)
+
+// Filtrer les températures par année et mois sélectionnés
+const filteredTemperature25 = computed(() => {
+  const filteredData = temperature25.value
+    .filter(
+      (d) =>
+        d.date.getFullYear() === +selectedYear2.value &&
+        d.date.getMonth() === monthIndex.indexOf(selectedMonth.value)
+    )
+    .filter((d) => d.temperature != null && !isNaN(d.temperature) && d.temperature !== 0)
+
+  if (filteredData.length === 0) {
+    console.warn('Aucune donnée disponible pour cette période.')
+  }
+
+  return filteredData
+})
+
+const filteredTemperature29 = computed(() => {
+  const filteredData2 = temperature29.value
+    .filter(
+      (d) =>
+        d.date.getFullYear() === +selectedYear2.value &&
+        d.date.getMonth() === monthIndex.indexOf(selectedMonth.value)
+    )
+    .filter((d) => d.temperature != null && !isNaN(d.temperature) && d.temperature !== 0)
+
+  if (filteredData2.length === 0) {
+    console.warn('Aucune donnée disponible pour cette période.')
+  }
+
+  return filteredData2
+})
+
+// Options de graphique Plot
+const plotOptions25 = computed(() => ({
+  projection: {
+    type: 'mercator',
+    domain: departement25Doubs
+  },
+  marks: [
+    Plot.geo(departement25Doubs, {
+      fill: '#d4f0c0',
+      stroke: '#666'
+    }),
+    ...(filteredTemperature25.value.length > 0
+      ? [
+          Plot.dot(filteredTemperature25.value, {
+            x: 'longitude',
+            y: 'latitude',
+            fill: (d) => colorScale(d.temperature),
+            r: 10,
+            stroke: 'black',
+            strokeWidth: 1
+          }),
+          Plot.text(filteredTemperature25.value, {
+            x: 'longitude',
+            y: 'latitude',
+            text: (d) => d.temperature.toFixed(1) + '°C',
+            dx: 15,
+            dy: -15,
+            fontSize: 12,
+            fontWeight: 'bold',
+            fill: 'black'
+          })
+        ]
+      : [])
+  ],
+  width: 1000,
+  height: 800,
+  margin: 0,
+  animation: true
+}))
+
+const plotOptions29 = computed(() => ({
+  projection: {
+    type: 'mercator',
+    domain: departement29Finistere
+  },
+  marks: [
+    Plot.geo(departement29Finistere, {
+      fill: '#d4f0c0',
+      stroke: '#666'
+    }),
+    ...(filteredTemperature29.value.length > 0
+      ? [
+          Plot.dot(filteredTemperature29.value, {
+            x: 'longitude',
+            y: 'latitude',
+            fill: (d) => colorScale(d.temperature),
+            r: 10,
+            stroke: 'black',
+            strokeWidth: 1
+          }),
+          Plot.text(filteredTemperature29.value, {
+            x: 'longitude',
+            y: 'latitude',
+            text: (d) => d.temperature.toFixed(1) + '°C',
+            dx: 15,
+            dy: -15,
+            fontSize: 12,
+            fontWeight: 'bold',
+            fill: 'black'
+          })
+        ]
+      : [])
+  ],
+  width: 1000,
+  height: 800,
+  margin: 0,
+  animation: true
+}))
+
+// Clé unique pour forcer la mise à jour du graphique
+const plotKey = ref(0)
+
+// Watch for changes in selectedYear2 and selectedMonth to trigger reactivity
+watch([selectedYear2, selectedMonth], () => {
+  plotKey.value += 1 // Incrémente la clé pour forcer la mise à jour
+})
+</script>
+
 <template>
-  <div>
-    <div>
-      <label for="year-select">Sélectionnez une année</label>
-      <input
-        id="year-select"
-        type="range"
-        :min="Math.min(...yearsAvailable)"
-        :max="Math.max(...yearsAvailable)"
-        v-model="selectedYear2"
-        step="1"
-      />
-      <span>{{ selectedYear2 }}</span>
-    </div>
+  <h1>Visualisation des températures dans le Doubs</h1>
 
-    <div>
-      <label for="month-select">Sélectionnez un mois</label>
-      <select v-model="selectedMonth">
-        <option v-for="(month, index) in monthIndex" :key="index">{{ month }}</option>
-      </select>
-    </div>
+  <label for="year-select">Sélectionnez une année : {{ selectedYear2 }}</label>
+  <input
+    type="range"
+    v-model="selectedYear2"
+    :min="Math.min(...data25.map((d) => d.AAAAMM.slice(0, 4)))"
+    :max="Math.max(...data25.map((d) => d.AAAAMM.slice(0, 4)))"
+    step="1"
+  />
 
-    <div class="plot-container">
-      <div ref="plotContainer1" class="plot"></div>
-      <div ref="plotContainer2" class="plot"></div>
-    </div>
+  <label for="month-select">Sélectionnez un mois :</label>
+  <select v-model="selectedMonth" id="month-select">
+    <option v-for="month in monthIndex" :key="month" :value="month">{{ month }}</option>
+  </select>
+
+  <div class=" lg:flex lg:justify-between">
+    <PlotFigure :key="plotKey" :options="plotOptions25" />
+    <PlotFigure :key="plotKey" :options="plotOptions29" />
   </div>
 </template>
 
-<script>
-import * as d3 from 'd3';
-import * as Plot from '@observablehq/plot';
-import departement25Doubs from '@/assets/departement-25-doubsGeojson.json';
-import departement29Finistere from '@/assets/departement-29-finistereGeojson.json';
-import data25 from '@/assets/data25.json';
-import data29 from '@/assets/data29.json';
-
-export default {
-  data() {
-    return {
-      temperature25: this.formatData(data25),
-      temperature29: this.formatData(data29),
-      monthIndex: [
-        'Janvier',
-        'Février',
-        'Mars',
-        'Avril',
-        'Mai',
-        'Juin',
-        'Juillet',
-        'Août',
-        'Septembre',
-        'Octobre',
-        'Novembre',
-        'Décembre'
-      ],
-      selectedYear2: new Date().getFullYear(),
-      selectedMonth: 'Janvier',
-      yearsAvailable: []
-    };
-  },
-  mounted() {
-    this.yearsAvailable = Array.from(
-      new Set(this.temperature25.map((d) => d.date.getFullYear()))
-    ).sort();
-    this.drawPlot();
-  },
-  watch: {
-    selectedYear2() {
-      this.drawPlot();
-    },
-    selectedMonth() {
-      this.drawPlot();
-    }
-  },
-  methods: {
-    formatData(data) {
-      return data.map((d) => {
-        const year = d.AAAAMM.slice(0, 4);
-        const month = d.AAAAMM.slice(4, 6) - 1; // Convertir le mois en index (0-11)
-        return {
-          date: new Date(year, month),
-          temperature: (+d.TX + +d.TN) / 2,
-          longitude: +d.LON,
-          latitude: +d.LAT
-        };
-      });
-    },
-    getFilteredData(temperatureData) {
-      return temperatureData
-        .filter(
-          (d) =>
-            d.date.getFullYear() === this.selectedYear2 &&
-            d.date.getMonth() === this.monthIndex.indexOf(this.selectedMonth)
-        )
-        .filter((d) => d.temperature != null && !isNaN(d.temperature) && d.temperature !== 0);
-    },
-    drawPlot() {
-      const filteredTemperature25 = this.getFilteredData(this.temperature25);
-      const filteredTemperature29 = this.getFilteredData(this.temperature29);
-
-      const colorScale25 = d3
-        .scaleSequential()
-        .domain(d3.extent(filteredTemperature25, (d) => d.temperature).reverse())
-        .interpolator(d3.interpolateRdYlBu);
-
-      const colorScale29 = d3
-        .scaleSequential()
-        .domain(d3.extent(filteredTemperature29, (d) => d.temperature).reverse())
-        .interpolator(d3.interpolateRdYlBu);
-
-      // Plot pour Doubs
-      const plot1 = Plot.plot({
-        projection: {
-          type: 'mercator',
-          domain: departement25Doubs
-        },
-        marks: [
-          Plot.geo(departement25Doubs, {
-            fill: '#d4f0c0',
-            stroke: '#666'
-          }),
-          ...(filteredTemperature25.length > 0
-            ? [
-                Plot.dot(filteredTemperature25, {
-                  x: 'longitude',
-                  y: 'latitude',
-                  fill: (d) => colorScale25(d.temperature),
-                  r: 10,
-                  stroke: 'black',
-                  strokeWidth: 1
-                }),
-                Plot.text(filteredTemperature25, {
-                  x: 'longitude',
-                  y: 'latitude',
-                  text: (d) => d.temperature.toFixed(1) + '°C',
-                  dx: 15,
-                  dy: -15,
-                  fontSize: 12,
-                  fontWeight: 'bold',
-                  fill: 'black'
-                })
-              ]
-            : [])
-        ],
-        width: 1000,
-        height: 500,
-        margin: 0,
-        animation: true
-      });
-
-      // Plot pour Finistère
-      const plot2 = Plot.plot({
-        projection: {
-          type: 'mercator',
-          domain: departement29Finistere
-        },
-        marks: [
-          Plot.geo(departement29Finistere, {
-            fill: '#d4f0c0',
-            stroke: '#666'
-          }),
-          ...(filteredTemperature29.length > 0
-            ? [
-                Plot.dot(filteredTemperature29, {
-                  x: 'longitude',
-                  y: 'latitude',
-                  fill: (d) => colorScale29(d.temperature),
-                  r: 10,
-                  stroke: 'black',
-                  strokeWidth: 1
-                }),
-                Plot.text(filteredTemperature29, {
-                  x: 'longitude',
-                  y: 'latitude',
-                  text: (d) => d.temperature.toFixed(1) + '°C',
-                  dx: 15,
-                  dy: -15,
-                  fontSize: 12,
-                  fontWeight: 'bold',
-                  fill: 'black'
-                })
-              ]
-            : [])
-        ],
-        width: 1000,
-        height: 500,
-        margin: 0,
-        animation: true
-      });
-
-      this.$refs.plotContainer1.innerHTML = '';
-      this.$refs.plotContainer1.appendChild(plot1);
-
-      this.$refs.plotContainer2.innerHTML = '';
-      this.$refs.plotContainer2.appendChild(plot2);
-    }
-  }
-};
-</script>
-
-<style>
+<style scoped>
 .plot-container {
   display: flex;
-  justify-content: space-between; /* Optionnel : espace entre les éléments */
-}
-
-.plot {
-  flex: 1; /* Les deux éléments prendront une largeur égale */
-  margin: 0 10px; /* Optionnel : marge entre les éléments */
+  justify-content: space-between;
 }
 </style>

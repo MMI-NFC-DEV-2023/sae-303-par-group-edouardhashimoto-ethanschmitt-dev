@@ -10,7 +10,7 @@ import { computed, ref, watch } from 'vue'
 const years = Array.from(new Set(data25.map((d) => d.AAAAMM.slice(0, 4))))
 
 // Année sélectionnée (par défaut "1964")
-const selectedYear = ref('1964')
+const selectedYear = ref('1964') 
 
 // Données du point survolé
 const hoveredData = ref(null)
@@ -100,18 +100,20 @@ watch(selectedYear, () => {
 </script>
 
 <template>
-  <h1>Température maximale par mois</h1>
+  <div class="flex flex-col items-center justify-center min-h-screen">
+    <h1>Température maximale par mois</h1>
 
-  <label for="year-select">Choisir l'année :</label>
-  <select v-model="selectedYear" id="year-select">
-    <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
-  </select>
+    <label for="year-select">Choisir l'année :</label>
+    <select v-model="selectedYear" id="year-select">
+      <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
+    </select>
 
-  <PlotFigure :key="plotKey" :options="plotOptions" />
+    <PlotFigure :key="plotKey" :options="plotOptions" />
 
-  <!-- Afficher les données survolées -->
-  <div v-if="hoveredData" class="hover-info">
-    {{ hoveredData }}
+    <!-- Afficher les données survolées -->
+    <div v-if="hoveredData" class="hover-info">
+      {{ hoveredData }}
+    </div>
   </div>
 </template>
 
