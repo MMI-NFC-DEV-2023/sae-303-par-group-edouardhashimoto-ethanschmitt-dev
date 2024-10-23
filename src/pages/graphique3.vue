@@ -4,13 +4,14 @@ import * as Plot from '@observablehq/plot'
 import PlotFigure from '@/components/PlotFigure.js'
 import departement25Doubs from '@/assets/departement-25-doubsGeojson.json'
 import departement29Finistere from '@/assets/departement-29-finistereGeojson.json'
-import data25 from '@/assets/data25.json'
+// import data25 from '@/assets/data25.json'
 // import data29 from '@/assets/data29.json'
 import { computed, ref, watch } from 'vue'
 import * as d3 from 'd3'
 
 
 const data29 = await fetch("data29.json").then((res) => res.json())
+const data25 = await fetch("data25.json").then((res) => res.json())
 
 
 // Mois de l'année
@@ -116,7 +117,7 @@ const plotOptions25 = computed(() => ({
             x: 'longitude',
             y: 'latitude',
             fill: (d) => colorScale(d.temperature),
-            r: 10,
+            r: 20,
             stroke: 'black',
             strokeWidth: 1
           }),
@@ -124,9 +125,9 @@ const plotOptions25 = computed(() => ({
             x: 'longitude',
             y: 'latitude',
             text: (d) => d.temperature.toFixed(1) + '°C',
-            dx: 15,
-            dy: -15,
-            fontSize: 12,
+            dx: 35,
+            dy: -25,
+            fontSize: 20,
             fontWeight: 'bold',
             fill: 'black'
           })
@@ -155,7 +156,7 @@ const plotOptions29 = computed(() => ({
             x: 'longitude',
             y: 'latitude',
             fill: (d) => colorScale(d.temperature),
-            r: 10,
+            r: 20,
             stroke: 'black',
             strokeWidth: 1
           }),
@@ -163,9 +164,9 @@ const plotOptions29 = computed(() => ({
             x: 'longitude',
             y: 'latitude',
             text: (d) => d.temperature.toFixed(1) + '°C',
-            dx: 15,
-            dy: -15,
-            fontSize: 12,
+            dx: 35,
+            dy: -25,
+            fontSize: 20,
             fontWeight: 'bold',
             fill: 'black'
           })
