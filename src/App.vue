@@ -1,16 +1,23 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import LoginOut from './components/LoginOut.vue';
 </script>
 
 <template>
   <header>
     <div class="wrapper">
-      <h1 class="text-2xl bg-slate-400">Template Principal (Menu/Footer/...)</h1>
-      <LoginOut />
+      <h1 class="text-2xl bg-slate-400">SAE303</h1>
       <nav>
         <ul>
-          <RouterLink to="/">Accueil</RouterLink>
+          <RouterLink to="/graphique1">Graph1</RouterLink>
+        </ul>
+        <ul>
+          <RouterLink to="/graphique2">Graph2</RouterLink>
+        </ul>
+        <ul>
+          <RouterLink to="/graphique3">Graph3</RouterLink>
+        </ul>
+        <ul>
+          <RouterLink to="/equipes">test</RouterLink>
         </ul>
       </nav>
     </div>
