@@ -14,6 +14,7 @@
     "typegen": "pocketbase-typegen --db ./pocketbase/pb_data/data.db --out ./src/pocketbase-types.ts"
   },
   "dependencies": {
+    "@observablehq/plot": "^0.6.16",
     "pocketbase": "^0.21.5",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3"
