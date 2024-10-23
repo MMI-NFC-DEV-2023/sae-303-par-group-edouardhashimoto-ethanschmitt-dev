@@ -245,6 +245,15 @@ watch([selectedYear2, selectedMonth], () => {
       </a>
     </p>
   </div>
+  <div class="flex justify-end mt-5">
+      <router-link to="/graphique4">
+        <button
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300"
+        >
+          Aller à Graphique 4
+        </button>
+      </router-link>
+    </div>
 </template>
 
 <style scoped>
